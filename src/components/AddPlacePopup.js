@@ -1,29 +1,17 @@
 import React from "react";
 import PopupWithForm from "./PopupWithForm";
+import { useForm } from "../hooks/useForm";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
-  const [title, setTitle] = React.useState("");
-  const [link, setLink] = React.useState("");
+  const { values, handleChange, setValues } = useForm({ title: "", link: "" });
 
   React.useEffect(() => {
-    setTitle("");
-    setLink("");
-  }, [isOpen]);
-
-  function handleTitleChange(e) {
-    setTitle(e.target.value);
-  }
-
-  function handleLinkChange(e) {
-    setLink(e.target.value);
-  }
+    setValues({ title: "", link: "" });
+  }, [isOpen, setValues]);
 
   function handleSubmit(e) {
     e.preventDefault();
-    onAddPlaceSubmit({
-      title: title,
-      link: link,
-    });
+    onAddPlaceSubmit(values);
   }
 
   return (
@@ -39,8 +27,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
         type="text"
         name="title"
         id="title-input"
-        value={title || ""}
-        onChange={handleTitleChange}
+        value={values.title || ""}
+        onChange={handleChange}
         className="popup__input"
         placeholder="Title"
         required
@@ -52,8 +40,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlaceSubmit }) {
         type="url"
         name="link"
         id="link-input"
-        value={link || ""}
-        onChange={handleLinkChange}
+        value={values.link || ""}
+        onChange={handleChange}
         className="popup__input"
         placeholder="Image link"
         required

@@ -27,7 +27,7 @@ function App() {
 
   const [selectedCard, setSelectedCard] = React.useState(undefined);
 
-  const [currentUser, setCurrentUser] = React.useState("");
+  const [currentUser, setCurrentUser] = React.useState({});
 
   const [cards, setCards] = React.useState([]);
 
@@ -51,6 +51,18 @@ function App() {
       .catch((err) => {
         console.log(err);
       });
+  }, []);
+
+  React.useEffect(() => {
+    const closeByEscape = (e) => {
+      if (e.key === "Escape") {
+        closeAllPopups();
+      }
+    };
+
+    document.addEventListener("keydown", closeByEscape);
+
+    return () => document.removeEventListener("keydown", closeByEscape);
   }, []);
 
   function handleEditProfileClick() {
@@ -137,8 +149,7 @@ function App() {
     api
       .updateUserAvatar(newData)
       .then((user) => {
-        console.log(user);
-        setCurrentUser(user);
+        setCurrentUser({ ...currentUser, avatar: user.avatar });
         closeAllPopups();
       })
       .catch((err) => {
