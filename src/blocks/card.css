@@ -95,3 +95,7 @@
   opacity: 0.6;
   cursor: pointer;
 }
+
+.card__delete-btn_hidden {
+  display: none;
+}
